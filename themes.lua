@@ -1193,6 +1193,25 @@ function library:init()
         return indicator
     end
 
+    function self.NewWindow(data)
+        local window = {
+            title = data.title or '',
+            selectedTab = nil;
+            tabs = {},
+            objects = {},
+            colorpicker = {
+                objects = {};
+                color = c3new(1,0,0);
+                trans = 0;
+            };
+            dropdown = {
+                objects = {
+                    values = {};
+                };
+                max = 5;
+            }
+        };
+
         table.insert(library.windows, window);
 
         ----- Create Objects ----
@@ -1256,17 +1275,6 @@ function library:init()
                 Parent = objs.background;
             })
 
-            objs.title = utility:Draw('Text', {
-                Position = newUDim2(0,7,0,2);
-                ThemeColor = 'Primary Text';
-                Text = window.title;
-                Font = 2;
-                Size = 13;
-                ZIndex = z+1;
-                Outline = true;
-                Parent = objs.midBorder;
-            })
-
             objs.groupBackground = utility:Draw('Square', {
                 Size = newUDim2(1,-16,1,-(16+23));
                 Position = newUDim2(0,8,0,8+23);
@@ -1292,7 +1300,7 @@ function library:init()
             })
 
             objs.tabHolder = utility:Draw('Square', {
-                Size = newUDim2(1,0,0,20);
+                Size = newUDim2(3,0,0,50);
                 Position = newUDim2(0,0,0,-21);
                 Parent = objs.groupBackground;
                 Transparency = 0;
@@ -1306,15 +1314,6 @@ function library:init()
                 ZIndex = z+6;
                 Parent = objs.groupBackground;
             })
-
-            objs.columnholder2 = utility:Draw('Square', {
-                Size = newUDim2(.48, 0, .96, 0);
-                Position = newUDim2(1 - (.48 + .01), 0, .02, 0);
-                Transparency = 0;
-                ZIndex = z+6;
-                Parent = objs.groupBackground;
-            })
-
 
             objs.dragdetector = utility:Draw('Square',{
                 Size = newUDim2(1,0,1,0);
