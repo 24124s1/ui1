@@ -1904,33 +1904,18 @@ function library:init()
             local z = library.zindexOrder.window + 5
 
             objs.background = utility:Draw('Square', {
-                Size = newUDim2(1, 0, 1, 0);
-                Position = newUDim2(0, 0, 0, 0);
-                Parent = self.objects.tabHolder;
+                Size = newUDim2(0, 100, 0, 25);
+                Position = newUDim2(0, (#self.tabs - 1) * 105, 0, 0);
+                Parent = self.objects.main;
                 ThemeColor = 'Unselected Tab Background';
                 ZIndex = z;
             })
 
             objs.innerBorder = utility:Draw('Square', {
-                Size = newUDim2(1, 2, 1, 2);
-                Position = newUDim2(0, -1, 0, -1);
-                ThemeColor = 'Border 1';
+                Size = newUDim2(1, 0, 1, 0);
+                Position = newUDim2(0, 0, 0, 0);
+                ThemeColor = 'Border 2';
                 ZIndex = z - 1;
-                Parent = objs.background;
-            })
-
-            objs.outerBorder = utility:Draw('Square', {
-                Size = newUDim2(1, 2, 1, 2);
-                Position = newUDim2(0, -1, 0, -1);
-                ThemeColor = 'Border 3';
-                ZIndex = z - 2;
-                Parent = objs.innerBorder;
-            })
-
-            objs.topBorder = utility:Draw('Square', {
-                Size = newUDim2(1, 0, 0, 1);
-                ThemeColor = 'Unselected Tab Background';
-                ZIndex = z + 1;
                 Parent = objs.background;
             })
 
@@ -1948,6 +1933,75 @@ function library:init()
             utility:Connection(objs.background.MouseButton1Down, function()
                 tab:Select()
             end)
+
+            function tab:AddSection(text, side, order)
+                local section = {
+                    text = tostring(text);
+                    side = side == nil and 1 or clamp(side,1,2);
+                    order = order or #self.sections+1;
+                    enabled = true;
+                    objects = {};
+                    options = {};
+                };
+
+                table.insert(self.sections, section);
+
+                local objs = section.objects;
+                local z = library.zindexOrder.window + 15;
+
+                objs.background = utility:Draw('Square', {
+                    ThemeColor = 'Section Background';
+                    ZIndex = z;
+                    Parent = window.objects['columnholder'..(section.side)];
+                })
+
+                objs.innerBorder = utility:Draw('Square', {
+                    Size = newUDim2(1,2,1,1);
+                    Position = newUDim2(0,-1,0,0);
+                    ThemeColor = 'Border 2';
+                    ZIndex = z-1;
+                    Parent = objs.background;
+                })
+
+                objs.outerBorder = utility:Draw('Square', {
+                    Size = newUDim2(1,2,1,1);
+                    Position = newUDim2(0,-1,0,0);
+                    ThemeColor = 'Border 1';
+                    ZIndex = z-2;
+                    Parent = objs.innerBorder;
+                })
+
+                objs.topBorder1 = utility:Draw('Square', {
+                    Size = newUDim2(.025,1,0,1);
+                    Position = newUDim2(0,-1,0,0);
+                    ThemeColor = 'Accent';
+                    ZIndex = z+1;
+                    Parent = objs.background;
+                })
+
+                objs.topBorder2 = utility:Draw('Square', {
+                    ThemeColor = 'Accent';
+                    ZIndex = z+1;
+                    Parent = objs.background;
+                })
+
+                objs.textlabel = utility:Draw('Text', {
+                    Position = newUDim2(.0425,0,0,-7);
+                    ThemeColor = 'Primary Text';
+                    Size = 13;
+                    Font = 2;
+                    ZIndex = z+1;
+                    Parent = objs.background;
+                })
+
+                objs.optionholder = utility:Draw('Square',{
+                    Size = newUDim2(1-.03,0,1,-15);
+                    Position = newUDim2(.015,0,0,13);
+                    Transparency = 0;
+                    ZIndex = z+1;
+                    Parent = objs.background;
+                })
+            end
             ----------------------
 
             function tab:AddSection(text, side, order)
