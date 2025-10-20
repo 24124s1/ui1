@@ -1283,14 +1283,6 @@ function library:init()
                 Parent = objs.background;
             })
 
-            objs.groupInnerBorder = utility:Draw('Square', {
-                Size = newUDim2(1,2,1,2);
-                Position = newUDim2(0,-1,0,-1);
-                ThemeColor = 'Border 1';
-                ZIndex = z+4;
-                Parent = objs.groupBackground;
-            })
-
             objs.groupOuterBorder = utility:Draw('Square', {
                 Size = newUDim2(1,2,1,2);
                 Position = newUDim2(0,-1,0,-1);
